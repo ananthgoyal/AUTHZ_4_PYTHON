@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 from sqlite3 import Date
 from fastapi import FastAPI, Request, Depends, Form, status, HTTPException
 from Role import Role
@@ -18,7 +18,7 @@ db = SessionLocal()
 def index():
     return {"message": "Enable Test"}
 
-"""Test on Item class for CRUD Operations"""
+"""Test on dummy Item class for CRUD Operations"""
 
 """Create Item"""
 @app.post('/items', response_model=Item, status_code = status.HTTP_201_CREATED)
@@ -76,7 +76,30 @@ def deleteItem(item_id:int):
 
 @app.put('/roles', response_model=Role, status_code = status.HTTP_201_CREATED)
 def create_role(role: Role):
-    pass
+    new_role = models.Role(
+            createdOn = datetime.now()
+            createdBy: int
+            lastModifiedOn = datetime.now()
+            lastModifiedBy: int
+            version = 1
+            effectiveFrom: datetime
+            isEnabled: bool
+            id: int
+            name = role.name,
+            permissions = role.permissions
+            tags = role.tags
+    )
+
+    db.add(new_role)
+    db.commit()
+
+    return new_role
+
+"""Permission CRUD Operations"""
+
+"""Create a Permission"""
+
+
 
 '''
 @app.put('/roles/{role_guid}')
