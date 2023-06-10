@@ -1,7 +1,8 @@
 from datetime import date
 from sqlite3 import Date
 from fastapi import FastAPI, Request, Depends, Form, status, HTTPException
-import Role, User
+from Role import Role
+from User import User
 from item import Item
 from pydantic import BaseModel
 from typing import Optional, List
@@ -18,6 +19,7 @@ def index():
     return {"message": "Enable Test"}
 
 """Test on Item class for CRUD Operations"""
+
 """Create Item"""
 @app.post('/items', response_model=Item, status_code = status.HTTP_201_CREATED)
 def createItem(item: Item):
@@ -69,6 +71,13 @@ def deleteItem(item_id:int):
 
 
 """Roles CRUD Operations"""
+
+"""Create a Role"""
+
+@app.put('/roles', response_model=Role, status_code = status.HTTP_201_CREATED)
+def create_role(role: Role):
+    pass
+
 '''
 @app.put('/roles/{role_guid}')
 def updateRole(role_guid:int, role: Role):
