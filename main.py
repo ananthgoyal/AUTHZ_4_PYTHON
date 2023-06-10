@@ -74,9 +74,15 @@ def deleteItem(item_id:int):
 
 """Create a Role"""
 
-@app.put('/roles', response_model=Role, status_code = status.HTTP_201_CREATED)
+@app.post('/roles', response_model=Role, status_code = status.HTTP_201_CREATED)
 def create_role(role: Role):
     new_role = models.Role(
+            name = role.name,
+            permissions = role.permissions,
+            tags = role.tags
+    )
+
+    '''     
             createdOn = datetime.now(),
             createdBy = role.createdBy,
             lastModifiedOn = datetime.now(),
@@ -84,12 +90,7 @@ def create_role(role: Role):
             version = 1,
             effectiveFrom =  role.effectiveFrom,
             isEnabled = role.isEnabled,
-            id = role.id,
-            name = role.name,
-            permissions = role.permissions,
-            tags = role.tags
-    )
-
+            id = role.id,'''
     db.add(new_role)
     db.commit()
 

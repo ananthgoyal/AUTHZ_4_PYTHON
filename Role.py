@@ -2,20 +2,23 @@
 #-*- coding: utf-8 -*-
 
 from typing import List
-from Persistent import Persistent
-#from pydantic import BaseModel
+#from Persistent import Persistent
+from pydantic import BaseModel
 
 
-class Role(Persistent):
+class Role(BaseModel):
     """Is an organized set of permissions intended to reflect an organization function."""
     name: str
     permissions: List
     tags: List
+
+    class Config:
+        orm_mode = True
     
     '''def __init__(self):
         self.name = None
         self.permissions = None
-        self.tags = None
+        self.tags = None'''
 
     def addPermission(self, permission):
         """Adds a permission to the set"""
@@ -26,5 +29,5 @@ class Role(Persistent):
         pass
 
     def addTag(self, String):
-        pass'''
+        pass
 
