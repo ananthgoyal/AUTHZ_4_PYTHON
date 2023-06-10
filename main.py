@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from sqlite3 import Date
 from fastapi import FastAPI, Request, Depends, Form, status, HTTPException
 from Role import Role
@@ -79,10 +79,7 @@ def create_role(role: Role):
     new_role = models.Role(
             name = role.name,
             permissions = role.permissions,
-            tags = role.tags
-    )
-
-    '''     
+            tags = role.tags,
             createdOn = datetime.now(),
             createdBy = role.createdBy,
             lastModifiedOn = datetime.now(),
@@ -90,7 +87,11 @@ def create_role(role: Role):
             version = 1,
             effectiveFrom =  role.effectiveFrom,
             isEnabled = role.isEnabled,
-            id = role.id,'''
+            id = role.id
+    )
+
+         
+            
     db.add(new_role)
     db.commit()
 

@@ -2,11 +2,11 @@
 #-*- coding: utf-8 -*-
 
 from typing import List
-#from Persistent import Persistent
-from pydantic import BaseModel
+from Persistent import Persistent
+#from pydantic import BaseModel
 
 
-class Role(BaseModel):
+class Role(Persistent):
     """Is an organized set of permissions intended to reflect an organization function."""
     name: str
     permissions: List

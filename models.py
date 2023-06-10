@@ -1,6 +1,6 @@
 from datetime import datetime
 from database import Base
-from sqlalchemy import String, Boolean, Integer, Column, ARRAY, DateTime
+from sqlalchemy import String, Boolean, Integer, Column, ARRAY, DateTime, Date
 
 class Item(Base):
     __tablename__ = 'items'
@@ -18,15 +18,13 @@ class Persistent(object):
     lastModifiedOn = Column(DateTime)
     lastModifiedBy = Column(Integer)
     version = Column(Integer)
-    effectiveFrom = Column(DateTime)
+    effectiveFrom = Column(Date)
     isEnabled = Column(Boolean)
     id = Column(Integer, primary_key=True, unique=True)   
-    type = Column(String(50))
 
-
-class Role(Base):
+class Role(Persistent, Base):
     __tablename__ = "roles"
-    name = Column(String(255), nullable=False, unique=False, primary_key=True)
+    name = Column(String(255), nullable=False)
     permissions = Column(ARRAY(Integer))
     tags = Column(ARRAY(String))
     

@@ -3,17 +3,18 @@
 from ast import mod
 #from User import User
 #import User
-from datetime import datetime
+from datetime import datetime, date
+from typing import Optional
 from pydantic import BaseModel
 
 class Persistent(BaseModel):
     """Signifies the abstract class for all persistent objects with all common attributes included"""
-    createdOn: datetime
+    createdOn: Optional[datetime]
     createdBy: int
-    lastModifiedOn: datetime
+    lastModifiedOn: Optional[datetime]
     lastModifiedBy: int
-    version: int
-    effectiveFrom: datetime
+    version: Optional[int]
+    effectiveFrom: date
     isEnabled: bool
     id: int
 
