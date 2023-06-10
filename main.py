@@ -77,16 +77,16 @@ def deleteItem(item_id:int):
 @app.put('/roles', response_model=Role, status_code = status.HTTP_201_CREATED)
 def create_role(role: Role):
     new_role = models.Role(
-            createdOn = datetime.now()
-            createdBy: int
-            lastModifiedOn = datetime.now()
-            lastModifiedBy: int
-            version = 1
-            effectiveFrom: datetime
-            isEnabled: bool
-            id: int
+            createdOn = datetime.now(),
+            createdBy = role.createdBy,
+            lastModifiedOn = datetime.now(),
+            lastModifiedBy = role.lastModifiedBy,
+            version = 1,
+            effectiveFrom =  role.effectiveFrom,
+            isEnabled = role.isEnabled,
+            id = role.id,
             name = role.name,
-            permissions = role.permissions
+            permissions = role.permissions,
             tags = role.tags
     )
 
