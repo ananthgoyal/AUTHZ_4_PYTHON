@@ -14,6 +14,7 @@ app = FastAPI()
 
 db = SessionLocal()
 
+
 @app.get('/')
 def index():
     return {"message": "Enable Test"}
@@ -69,7 +70,6 @@ def deleteItem(item_id:int):
     return deleteItem
 
 
-
 """Roles CRUD Operations"""
 
 """Create a Role"""
@@ -90,12 +90,50 @@ def create_role(role: Role):
             id = role.id
     )
 
-         
-            
     db.add(new_role)
     db.commit()
 
     return new_role
+
+"""Read All Roles"""
+@app.get('/roles', response_model = List[Role], status_code = 200)
+def get_all_roles():
+    return db.query(models.Role).all()
+
+
+"""Read a Role"""
+@app.get('/roles/{role_id}', response_model = Role, status_code = status.HTTP_200_OK)
+def getItem(role_id: int):
+    return db.query(models.Role).filter(models.Role.id==role_id).first()
+
+
+"""Update Role"""
+@app.put('/roles/{role_id}', response_model = Role, status_code=status.HTTP_200_OK)
+def updateItem(role_id:int, role:Role):
+    role_to_be_updated = db.query(models.Role).filter(models.Role.id==role_id).first()
+    role_to_be_updated.name = role.name
+    role_to_be_updated.permissions = role.permissions
+    role_to_be_updated.tags = role.tags
+    role_to_be_updated.id = role.id
+    role_to_be_updated.isEnabled = role.isEnabled
+    role_to_be_updated.lastModifiedOn = datetime.now()
+    role_to_be_updated.version += 1
+    db.commit()
+    
+    return role_to_be_updated
+
+"""Delete Role"""
+@app.delete('/roles/{role_id}')
+def delete_role(role_id:int):
+    role_to_be_deleted = db.query(models.Role).filter(models.Role.id == role_id).first()
+    if role_to_be_deleted is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Not Found")
+
+    db.delete(role_to_be_deleted)
+    db.commit()
+
+    return role_to_be_deleted
+
 
 """Permission CRUD Operations"""
 
