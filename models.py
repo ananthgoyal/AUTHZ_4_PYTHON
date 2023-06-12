@@ -33,7 +33,7 @@ class Role(Persistent, Base):
         return f"<Role name = {self.name}>"
 
 
-class Permission(Persistent):
+class Permission(Persistent, Base):
     __tablename__ = "permissions"
     can_create = Column(Boolean)
     can_update = Column(Boolean)
@@ -42,7 +42,7 @@ class Permission(Persistent):
     can_read_all = Column(Boolean)
     can_assign = Column(Boolean)
     can_share = Column(Boolean)
-    
+
     def __repr__(self):
         return f"<Permission ID = {self.id}>"
 

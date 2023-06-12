@@ -1,8 +1,10 @@
 from datetime import datetime
+from math import perm
 from sqlite3 import Date
 from fastapi import FastAPI, Request, Depends, Form, status, HTTPException
 from Role import Role
 from User import User
+from Permission import Permission
 from item import Item
 from pydantic import BaseModel
 from typing import Optional, List
@@ -138,8 +140,71 @@ def delete_role(role_id:int):
 """Permission CRUD Operations"""
 
 """Create a Permission"""
+@app.post('/permissions', response_model=Permission, status_code = status.HTTP_201_CREATED)
+def create_permission(permission: Permission):
+    new_permission = models.Permission(
+            can_create = permission.can_create,
+            can_update = permission.can_update,
+            can_delete = permission.can_delete,
+            can_read = permission.can_delete,
+            can_read_all = permission.can_read_all,
+            can_assign = permission.can_assign,
+            can_share = permission.can_share,
+            createdOn = datetime.now(),
+            createdBy = permission.createdBy,
+            lastModifiedOn = datetime.now(),
+            lastModifiedBy = permission.lastModifiedBy,
+            version = 1,
+            effectiveFrom =  permission.effectiveFrom,
+            isEnabled = permission.isEnabled,
+            id = permission.id
+    )
 
+    db.add(new_permission)
+    db.commit()
 
+    return new_permission
+
+"""Read All Permission"""
+@app.get('/permissions', response_model = List[Permission], status_code = 200)
+def get_all_roles():
+    return db.query(models.Permission).all()
+
+"""Read Single Permission"""
+@app.get('/permissions/{permission_id}', response_model = Permission, status_code = status.HTTP_200_OK)
+def get_permission(permission_id: int):
+    return db.query(models.Permission).filter(models.Permission.id==permission_id).first()
+
+"""Update Permission"""
+@app.put('/perissions/{permission_id}', response_model = Permission, status_code=status.HTTP_200_OK)
+def update_permission(permission_id:int, permission:Permission):
+    perm_to_be_updated = db.query(models.Permission).filter(models.Permission.id==permission_id).first()
+    perm_to_be_updated.can_create = permission.can_create
+    perm_to_be_updated.can_update = permission.can_update
+    perm_to_be_updated.can_delete = permission.can_delete
+    perm_to_be_updated.can_read = permission.can_read
+    perm_to_be_updated.can_read_all = permission.can_read_all
+    perm_to_be_updated.can_assign = permission.can_assign
+    perm_to_be_updated.can_share = permission.can_share
+    perm_to_be_updated.id = permission.id
+    perm_to_be_updated.isEnabled = perm.isEnabled
+    perm_to_be_updated.lastModifiedOn = datetime.now()
+    perm_to_be_updated.version += 1
+    db.commit()
+    
+    return perm_to_be_updated
+
+"""Delete a Permission"""
+@app.delete('/permissions/{permission_id}')
+def delete_permission(permission_id:int):
+    perm_to_be_deleted = db.query(models.Permission).filter(models.Permission.id == permission_id).first()
+    if perm_to_be_deleted is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Not Found")
+
+    db.delete(perm_to_be_deleted)
+    db.commit()
+
+    return perm_to_be_deleted
 
 '''
 @app.put('/roles/{role_guid}')
