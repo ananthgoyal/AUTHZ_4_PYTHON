@@ -2,9 +2,9 @@ from datetime import datetime
 from math import perm
 from sqlite3 import Date
 from fastapi import FastAPI, Request, Depends, Form, status, HTTPException
-from src.Role import Role
-from src.User import User
-from src.Permission import Permission
+from src.objects.Role import Role
+from src.objects.User import User
+from src.objects.Permission import Permission
 from pydantic import BaseModel
 from typing import Optional, List
 from src.database import SessionLocal
