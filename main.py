@@ -205,3 +205,66 @@ def delete_permission(permission_id:int):
     db.commit()
 
     return perm_to_be_deleted
+
+"""CRUD Operations for User"""
+
+"""Create a User"""
+@app.post('/users', response_model=User, status_code = status.HTTP_201_CREATED)
+def create_user(user: User):
+    new_user = models.User(
+            name = user.name,
+            dateOfBirth = user.dateOfBirth,
+            roles = user.roles,
+            createdOn = datetime.now(),
+            createdBy = user.createdBy,
+            lastModifiedOn = datetime.now(),
+            lastModifiedBy = user.lastModifiedBy,
+            version = 1,
+            effectiveFrom =  user.effectiveFrom,
+            isEnabled = user.isEnabled,
+            id = user.id
+    )
+
+    db.add(new_user)
+    db.commit()
+
+    return new_user
+
+"""Read All Users"""
+@app.get('/users', response_model = List[User], status_code = 200)
+def get_all_users():
+    return db.query(models.User).all()
+
+"""Read Single User"""
+@app.get('/users/{user_id}', response_model = User, status_code = status.HTTP_200_OK)
+def get_permission(user_id: int):
+    return db.query(models.User).filter(models.User.id==user_id).first()
+
+"""Update User"""
+@app.put('/users/{user_id}', response_model = User, status_code=status.HTTP_200_OK)
+def update_user(user_id:int, user:User):
+    user_to_be_updated = db.query(models.User).filter(models.User.id==user_id).first()
+    user_to_be_updated.name = user.name
+    user_to_be_updated.dateOfBirth = user.dateOfBirth
+    user_to_be_updated.roles = user.roles,    
+    user_to_be_updated.can_assign = user.can_assign
+    user_to_be_updated.can_share = user.can_share
+    user_to_be_updated.id = user.id
+    user_to_be_updated.isEnabled = user.isEnabled
+    user_to_be_updated.lastModifiedOn = datetime.now()
+    user_to_be_updated.version += 1
+    db.commit()
+    
+    return user_to_be_updated
+
+"""Delete a User"""
+@app.delete('/users/{user_id}')
+def delete_user(user_id:int):
+    user_to_be_deleted = db.query(models.User).filter(models.User.id == user_id).first()
+    if user_to_be_deleted is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Not Found")
+
+    db.delete(user_to_be_deleted)
+    db.commit()
+
+    return user_to_be_deleted

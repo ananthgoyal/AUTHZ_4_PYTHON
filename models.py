@@ -47,7 +47,7 @@ class Permission(Persistent, Base):
         return f"<Permission ID = {self.id}>"
 
 
-class User(Persistent):
+class User(Persistent, Base):
     __tablename__ = "users"
     name = Column(String(255))
     dateOfBirth = Column(Date)
