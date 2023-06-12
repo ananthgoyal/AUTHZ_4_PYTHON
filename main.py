@@ -19,58 +19,7 @@ db = SessionLocal()
 
 @app.get('/')
 def index():
-    return {"message": "Enable Test"}
-
-"""Test on dummy Item class for CRUD Operations"""
-
-"""Create Item"""
-@app.post('/items', response_model=Item, status_code = status.HTTP_201_CREATED)
-def createItem(item: Item):
-    newItem = models.Item(
-            name = item.name,
-            id = item.id
-    )
-
-    db.add(newItem)
-    db.commit()
-
-    return newItem
-
-"""Read All Items"""
-@app.get('/items', response_model = List[Item], status_code = 200)
-def getAllItems():
-    items = db.query(models.Item).all()
-    return items
-
-"""Read Item"""
-@app.get('/items/{item_id}', response_model = Item, status_code = status.HTTP_200_OK)
-def getItem(item_id: int):
-    foundItem = db.query(models.Item).filter(models.Item.id==item_id).first()
-    return foundItem
-
-
-"""Update Item"""
-@app.put('/items/{item_id}', response_model = Item, status_code=status.HTTP_200_OK)
-def updateItem(item_id:int, item:Item):
-    foundItem = db.query(models.Item).filter(models.Item.id==item_id).first()
-    foundItem.name = item.name
-    foundItem.id = item.id
-    db.commit()
-    
-    return foundItem
-
-"""Delete Item"""
-@app.delete('/items/{item_id}')
-def deleteItem(item_id:int):
-    deleteItem = db.query(models.Item).filter(models.Item.id == item_id).first()
-    if deleteItem is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Not Found")
-
-    db.delete(deleteItem)
-    db.commit()
-
-    return deleteItem
-
+    return {"message": "CRUD Test"}
 
 """Roles CRUD Operations"""
 
@@ -268,3 +217,56 @@ def delete_user(user_id:int):
     db.commit()
 
     return user_to_be_deleted
+
+
+"""Test on dummy Item class for CRUD Operations"""
+'''
+"""Create Item"""
+@app.post('/items', response_model=Item, status_code = status.HTTP_201_CREATED)
+def createItem(item: Item):
+    newItem = models.Item(
+            name = item.name,
+            id = item.id
+    )
+
+    db.add(newItem)
+    db.commit()
+
+    return newItem
+
+"""Read All Items"""
+@app.get('/items', response_model = List[Item], status_code = 200)
+def getAllItems():
+    items = db.query(models.Item).all()
+    return items
+
+"""Read Item"""
+@app.get('/items/{item_id}', response_model = Item, status_code = status.HTTP_200_OK)
+def getItem(item_id: int):
+    foundItem = db.query(models.Item).filter(models.Item.id==item_id).first()
+    return foundItem
+
+
+"""Update Item"""
+@app.put('/items/{item_id}', response_model = Item, status_code=status.HTTP_200_OK)
+def updateItem(item_id:int, item:Item):
+    foundItem = db.query(models.Item).filter(models.Item.id==item_id).first()
+    foundItem.name = item.name
+    foundItem.id = item.id
+    db.commit()
+    
+    return foundItem
+
+"""Delete Item"""
+@app.delete('/items/{item_id}')
+def deleteItem(item_id:int):
+    deleteItem = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if deleteItem is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Not Found")
+
+    db.delete(deleteItem)
+    db.commit()
+
+    return deleteItem
+
+'''
