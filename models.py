@@ -1,4 +1,5 @@
 from datetime import datetime
+from multiprocessing.dummy import Array
 from database import Base
 from sqlalchemy import String, Boolean, Integer, Column, ARRAY, DateTime, Date
 
@@ -12,7 +13,6 @@ class Item(Base):
 
 
 class Persistent(object):
-    #__tablename__ = "persistents"
     createdOn = Column(DateTime)
     createdBy = Column(Integer)
     lastModifiedOn = Column(DateTime)
@@ -46,7 +46,12 @@ class Permission(Persistent, Base):
     def __repr__(self):
         return f"<Permission ID = {self.id}>"
 
-'''
+
 class User(Persistent):
-    pass
-'''
+    __tablename__ = "users"
+    name = Column(String(255))
+    dateOfBirth = Column(Date)
+    roles = Column(ARRAY(Integer))
+
+    def __repr__(self):
+        return f"<User ID = {self.id}>"
