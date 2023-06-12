@@ -2,7 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from typing import List
-from Persistent import Persistent
+from src.Persistent import Persistent
 #from pydantic import BaseModel
 
 
@@ -14,11 +14,6 @@ class Role(Persistent):
 
     class Config:
         orm_mode = True
-    
-    '''def __init__(self):
-        self.name = None
-        self.permissions = None
-        self.tags = None'''
 
     def addPermission(self, permission):
         """Adds a permission to the set"""

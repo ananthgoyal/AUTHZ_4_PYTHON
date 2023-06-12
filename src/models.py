@@ -1,6 +1,6 @@
 from datetime import datetime
 from multiprocessing.dummy import Array
-from database import Base
+from src.database import Base
 from sqlalchemy import String, Boolean, Integer, Column, ARRAY, DateTime, Date
 
 class Item(Base):

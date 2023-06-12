@@ -2,14 +2,13 @@ from datetime import datetime
 from math import perm
 from sqlite3 import Date
 from fastapi import FastAPI, Request, Depends, Form, status, HTTPException
-from Role import Role
-from User import User
-from Permission import Permission
-from item import Item
+from src.Role import Role
+from src.User import User
+from src.Permission import Permission
 from pydantic import BaseModel
 from typing import Optional, List
-from database import SessionLocal
-import models
+from src.database import SessionLocal
+import src.models as models
 #import models
 
 app = FastAPI()

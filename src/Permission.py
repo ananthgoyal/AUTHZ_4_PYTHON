@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-from Persistent import Persistent
+from src.Persistent import Persistent
 
 class Permission(Persistent):
     """
@@ -19,20 +19,3 @@ class Permission(Persistent):
 
     class Config:
         orm_mode = True
-
-
-    '''
-    def __init__(self):
-        self.type = None
-        self.canRead = None
-        self.canCreate = None
-        self.canDelete = None
-        self.isRequired = None
-        self.isEnabled = None
-        self.canReadAll = None
-        self.canAssign = None
-        self.canShare = None
-        self.canUpdate = None
-
-    '''
-
