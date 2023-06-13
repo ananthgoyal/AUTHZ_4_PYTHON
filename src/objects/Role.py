@@ -17,15 +17,24 @@ class Role(Persistent):
 
     def addPermission(self, permission):
         """Adds a permission to the set"""
-        pass
+        if permission not in self.permissions:
+            self.permissions.append(permission)
 
     def remPermission(self, permission):
         """Removes a permission from a the set"""
-        pass
+        if permission in self.permissions:
+            self.permissions.remove(permission)
+            return permission
+        return None
 
     def addTag(self, tag):
         """Adds a tag to the tag set"""
+        if tag not in self.tags:
+            self.tags.append(tag)
 
     def remTag(self, tag):
         """Removes a tag from the tag set if that tag is present"""
-
+        if tag in self.tags:
+            self.tags.remove(tag)
+            return tag
+        return None
