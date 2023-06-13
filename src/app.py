@@ -9,7 +9,6 @@ from pydantic import BaseModel
 from typing import Optional, List
 from src.database import SessionLocal
 import src.models as models
-#import models
 
 app = FastAPI()
 
