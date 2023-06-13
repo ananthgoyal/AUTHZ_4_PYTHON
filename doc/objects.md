@@ -21,7 +21,7 @@ The primary abstract super class that all persistent objects inherit from
 **`id`**: [int] The unique ID of the object
  
 ### Class Methods:
-**updateModificationInfo(modifier: int = None)**: Updates the persistent object timestamp information and version number. If modifier parameter is passed in then the lastModifiedBy attribute gets updated with the ID of the modifier ID. 
+**`updateModificationInfo(modifier: int = None)`**: Updates the persistent object timestamp information and version number. If modifier parameter is passed in then the lastModifiedBy attribute gets updated with the ID of the modifier ID. 
 
 
 ## Role

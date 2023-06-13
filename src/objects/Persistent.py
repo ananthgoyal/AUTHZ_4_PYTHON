@@ -10,7 +10,7 @@ class Persistent(BaseModel):
     createdBy: int = None #The ID of the User object that created this object
     lastModifiedOn: Optional[datetime] #Datetime object indicating the time stamp this object was last modified
     lastModifiedBy: int #The of ID of the User object that last edited this object
-    version: Optional[int] = 0 #The version number of 
+    version: Optional[int] = 0 #The version number of the object
     effectiveFrom: date #Date object indicating the time this object is effective from
     isEnabled: bool = True #Whether the object is enabled; default value is True unless changed by User
     id: int #The unique ID of the object

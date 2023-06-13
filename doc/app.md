@@ -45,5 +45,8 @@ JSON format:
 ## Delete a Role 
 **DELETE /roles/user_id**: Delete the Role object associated with "user_id" from DB
 
+# User
+
+# Permission
 
 
