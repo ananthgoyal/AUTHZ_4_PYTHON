@@ -4,7 +4,7 @@ Management of Users, Roles, and Permissions implemented via  [Pydantic](https://
 
 ## Structure
 
-Organized with pydantic object classes for Users, Roles, and Permissions. Doc for object classses available [here]()
+Organized with pydantic object classes for Users, Roles, and Permissions. [Doc for object classses](https://github.com/ananthgoyal/AUTHZ_4_PYTHON/blob/main/doc/objects.md). [Doc for app operations](https://github.com/ananthgoyal/AUTHZ_4_PYTHON/blob/main/doc/app.md)
 
 
 
