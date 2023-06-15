@@ -6,7 +6,7 @@ from sqlalchemy import String, Boolean, Integer, Column, ARRAY, DateTime, Date
 class Item(Base):
     __tablename__ = 'items'
     name = Column(String(255), nullable=False, unique=True)
-    id = Column(Integer, primary_key=True)
+    id = Column(String(255), primary_key=True)
 
     def __repr__(self):
         return f"<Item name = {self.name} id={self.id}>"
@@ -14,13 +14,13 @@ class Item(Base):
 
 class Persistent(object):
     createdOn = Column(DateTime)
-    createdBy = Column(Integer)
-    lastModifiedOn = Column(DateTime)
-    lastModifiedBy = Column(Integer)
+    createdBy = Column(String, nullable=True)
+    lastModifiedOn = Column(DateTime, nullable=True)
+    lastModifiedBy = Column(String, nullable=True)
     version = Column(Integer)
-    effectiveFrom = Column(Date)
+    effectiveFrom = Column(Date, nullable=True)
     isEnabled = Column(Boolean)
-    id = Column(Integer, primary_key=True, unique=True)   
+    id = Column(String, primary_key=True, unique=True)
 
 class Role(Persistent, Base):
     __tablename__ = "roles"
@@ -42,6 +42,7 @@ class Permission(Persistent, Base):
     can_read_all = Column(Boolean)
     can_assign = Column(Boolean)
     can_share = Column(Boolean)
+    role = Column(String(255), nullable=True)
 
     def __repr__(self):
         return f"<Permission ID = {self.id}>"

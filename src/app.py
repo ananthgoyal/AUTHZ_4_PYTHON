@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 from src.database import SessionLocal
 import src.models as models
+import uuid
 
 app = FastAPI()
 
@@ -36,7 +37,7 @@ def create_role(role: Role):
             version = 1,
             effectiveFrom =  role.effectiveFrom,
             isEnabled = role.isEnabled,
-            id = role.id
+            id = uuid.uuid4() #generate unique id
     )
 
     db.add(new_role)
@@ -62,8 +63,11 @@ def updateItem(role_id:int, role:Role):
     role_to_be_updated = db.query(models.Role).filter(models.Role.id==role_id).first()
     role_to_be_updated.name = role.name
     role_to_be_updated.permissions = role.permissions
+    for perm in role.permissions:
+        perm_to_be_added = db.query(models.Permission).filter(models.Permission.id == perm).first()
+        perm_to_be_added.role = role_to_be_updated.id
     role_to_be_updated.tags = role.tags
-    role_to_be_updated.id = role.id
+    #role_to_be_updated.id = role.id
     role_to_be_updated.isEnabled = role.isEnabled
     role_to_be_updated.lastModifiedOn = datetime.now()
     role_to_be_updated.version += 1
@@ -89,6 +93,7 @@ def delete_role(role_id:int):
 """Create a Permission"""
 @app.post('/permissions', response_model=Permission, status_code = status.HTTP_201_CREATED)
 def create_permission(permission: Permission):
+    generatedID = str(uuid.uuid4()) #generate unique id
     new_permission = models.Permission(
             can_create = permission.can_create,
             can_update = permission.can_update,
@@ -98,13 +103,14 @@ def create_permission(permission: Permission):
             can_assign = permission.can_assign,
             can_share = permission.can_share,
             createdOn = datetime.now(),
-            createdBy = permission.createdBy,
+            createdBy = "user", #permission.createdBy,
             lastModifiedOn = datetime.now(),
-            lastModifiedBy = permission.lastModifiedBy,
             version = 1,
-            effectiveFrom =  permission.effectiveFrom,
+            effectiveFrom = "2023-06-14", #permission.effectiveFrom,
             isEnabled = permission.isEnabled,
-            id = permission.id
+            id = generatedID, 
+            lastModifiedBy = generatedID,
+            role = "str"
     )
 
     db.add(new_permission)
@@ -133,7 +139,7 @@ def update_permission(permission_id:int, permission:Permission):
     perm_to_be_updated.can_read_all = permission.can_read_all
     perm_to_be_updated.can_assign = permission.can_assign
     perm_to_be_updated.can_share = permission.can_share
-    perm_to_be_updated.id = permission.id
+    #perm_to_be_updated.id = permission.id
     perm_to_be_updated.isEnabled = perm.isEnabled
     perm_to_be_updated.lastModifiedOn = datetime.now()
     perm_to_be_updated.version += 1
@@ -143,7 +149,7 @@ def update_permission(permission_id:int, permission:Permission):
 
 """Delete a Permission"""
 @app.delete('/permissions/{permission_id}')
-def delete_permission(permission_id:int):
+def delete_permission(permission_id:str):
     perm_to_be_deleted = db.query(models.Permission).filter(models.Permission.id == permission_id).first()
     if perm_to_be_deleted is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "Not Found")
@@ -165,11 +171,12 @@ def create_user(user: User):
             createdOn = datetime.now(),
             createdBy = user.createdBy,
             lastModifiedOn = datetime.now(),
-            lastModifiedBy = user.lastModifiedBy,
             version = 1,
             effectiveFrom =  user.effectiveFrom,
             isEnabled = user.isEnabled,
-            id = user.id
+            id = uuid.uuid4(), #generate unique id
+            lastModifiedBy = id
+
     )
 
     db.add(new_user)
@@ -196,7 +203,7 @@ def update_user(user_id:int, user:User):
     user_to_be_updated.roles = user.roles,    
     user_to_be_updated.can_assign = user.can_assign
     user_to_be_updated.can_share = user.can_share
-    user_to_be_updated.id = user.id
+    #user_to_be_updated.id = user.id
     user_to_be_updated.isEnabled = user.isEnabled
     user_to_be_updated.lastModifiedOn = datetime.now()
     user_to_be_updated.version += 1

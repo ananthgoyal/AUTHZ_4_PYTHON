@@ -2,6 +2,7 @@
 #-*- coding: utf-8 -*-
 
 from src.objects.Persistent import Persistent
+from typing import Optional
 
 class Permission(Persistent):
     """
@@ -9,13 +10,13 @@ class Permission(Persistent):
 
     Note: As of now (for simplicity), the design of the permissions class has type as an attribute but will later be adjusted to be an abstract class with unique permission types as children objects.
     """
-    can_create: bool = False #Whether user can create
-    can_update: bool = False #Whether user can update
-    can_delete: bool = False #Whether user can delete
-    can_read: bool = False #Whether user can read
-    can_read_all: bool = False #Whether user can read all
-    can_assign: bool = False #Whether user can assign
-    can_share: bool = False #Whether user can share
+    can_create: Optional[bool] = False #Whether user can create
+    can_update: Optional[bool] = False #Whether user can update
+    can_delete: Optional[bool] = False #Whether user can delete
+    can_read: Optional[bool] = False #Whether user can read
+    can_read_all: Optional[bool] = False #Whether user can read all
+    can_assign: Optional[bool] = False #Whether user can assign
+    can_share: Optional[bool] = False #Whether user can share
 
     class Config:
         orm_mode = True
